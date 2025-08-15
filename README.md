@@ -1,72 +1,95 @@
-# portfolio-site-decap
-A portfolio site built with React and TypeScript, deployed on Netlify, and powered by Decap CMS.
+# Portfolio Site with Decap CMS
 
-# React + TypeScript + Vite
+A modern portfolio website built with React, TypeScript, Vite, and Decap CMS, now featuring Tailwind CSS for styling.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- **React 19** with TypeScript
+- **Vite** for fast development and building
+- **Decap CMS** for content management
+- **Tailwind CSS** for utility-first styling
+- **Markdown** content support
+- **Responsive design** with dark mode support
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tailwind CSS Setup
 
-## Expanding the ESLint configuration
+This project includes Tailwind CSS for styling. The setup includes:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Tailwind CSS v4** with PostCSS integration
+- **Autoprefixer** for cross-browser compatibility
+- **Custom configuration** in `tailwind.config.js`
+- **PostCSS configuration** in `postcss.config.js`
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Using Tailwind Classes
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+You can now use any Tailwind utility classes in your components:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```tsx
+<div className="bg-blue-500 text-white p-4 rounded-lg shadow-md">
+  This div uses Tailwind classes
+</div>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Utilities
+
+- **Layout**: `flex`, `grid`, `container`, `max-w-*`, `mx-auto`, etc.
+- **Spacing**: `p-*`, `m-*`, `gap-*`, etc.
+- **Colors**: `bg-*`, `text-*`, `border-*`, etc.
+- **Typography**: `text-*`, `font-*`, `leading-*`, etc.
+- **Responsive**: `md:`, `lg:`, `xl:` prefixes
+- **Dark mode**: `dark:` prefix for dark mode styles
+
+### Customization
+
+To customize Tailwind, edit `tailwind.config.js`:
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
+export default {
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#your-color',
       },
-      // other options...
     },
   },
-])
+  plugins: [],
+}
 ```
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── App.tsx          # Main app component with Tailwind classes
+├── index.css        # Tailwind directives and custom styles
+├── content.ts       # Content fetching utilities
+└── main.tsx         # App entry point
+```
+
+## Content Management
+
+Content is managed through Decap CMS and stored in:
+- `content/pages/` - Static pages
+- `content/blog/` - Blog posts
+- `content/projects/` - Project showcases
+
+## Deployment
+
+The site is configured for deployment on Netlify with automatic builds from the main branch.

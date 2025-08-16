@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@netlify/functions": "^4.2.1",
     "gray-matter": "^4.0.3",
     "marked": "^16.1.2",
+    "node-fetch": "^3.3.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

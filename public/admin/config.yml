@@ -1,43 +1,51 @@
 backend:
-  name: git-gateway   # Netlify Identity + Git Gateway
+  name: github
+  repo: spacekey28/portfolio-site-decap
   branch: main
+  base_url: https://portfolio-site-decap.netlify.app
+  auth_endpoint: /.netlify/functions/auth
 
 media_folder: "public/uploads"     # where files are stored in repo
 public_folder: "/uploads"          # how the site references them
+publish_mode: editorial_workflow  # optional
 
-site_url: "/"                      # optional; helps previews
+# at top-level
+# local_backend: false
 
-collections:
-  - name: "pages"
-    label: "Pages"
-    files:
-      - file: "content/pages/home.md"
-        label: "Home"
-        name: "home"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Intro", name: "intro", widget: "text" }
-          - { label: "Hero Image", name: "hero", widget: "image", required: false }
+# site_url: "/"                      # optional; helps previews
 
-  - name: "projects"
-    label: "Projects"
-    folder: "content/projects"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Summary", name: "summary", widget: "text" }
-      - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
-      - { label: "Tech (comma separated)", name: "tech", widget: "string", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+# collections:
+#   - name: "pages"
+#     label: "Pages"
+#     files:
+#       - file: "content/pages/home.md"
+#         label: "Home"
+#         name: "home"
+#         fields:
+#           - { label: "Title", name: "title", widget: "string" }
+#           - { label: "Intro", name: "intro", widget: "text" }
+#           - { label: "Hero Image", name: "hero", widget: "image", required: false }
 
-  - name: "blog"
-    label: "Blog"
-    folder: "content/blog"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
+#   - name: "projects"
+#     label: "Projects"
+#     folder: "content/projects"
+#     create: true
+#     slug: "{{slug}}"
+#     fields:
+#       - { label: "Title", name: "title", widget: "string" }
+#       - { label: "Date", name: "date", widget: "datetime" }
+#       - { label: "Summary", name: "summary", widget: "text" }
+#       - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
+#       - { label: "Tech (comma separated)", name: "tech", widget: "string", required: false }
+#       - { label: "Body", name: "body", widget: "markdown" }
+
+#   - name: "blog"
+#     label: "Blog"
+#     folder: "content/blog"
+#     create: true
+#     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+#     fields:
+#       - { label: "Title", name: "title", widget: "string" }
+#       - { label: "Date", name: "date", widget: "datetime" }
+#       - { label: "Body", name: "body", widget: "markdown" }
+

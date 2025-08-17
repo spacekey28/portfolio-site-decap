@@ -3,6 +3,18 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Serve the CMS files directly
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# Your SPA fallback last
 [[redirects]]
   from = "/*"
   to = "/index.html"

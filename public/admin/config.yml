@@ -12,7 +12,7 @@ publish_mode: editorial_workflow  # optional
 # at top-level
 local_backend: false
 
-site_url: "/"                      # optional; helps previews
+site_url: https://portfolio-site-decap.netlify.app                     # optional; helps previews
 
 collections:
   - name: "pages"

@@ -1,31 +1,25 @@
 import type { Handler } from '@netlify/functions';
-import fetch from 'node-fetch';
 
-interface GitHubOAuthResponse {
-  access_token?: string;
-  error?: string;
-  error_description?: string;
-}
-
+// Netlify runs on Node 18+ → built-in fetch is available; no node-fetch needed.
 export const handler: Handler = async (event) => {
-  const code = new URLSearchParams(event.rawQuery).get('code');
+  const code = new URLSearchParams(event.rawQuery || '').get('code');
+
+  const html = (js: string, fallback = 'You can close this window.') => ({
+    statusCode: 200,
+    headers: { 'Content-Type': 'text/html' },
+    body: `<!doctype html><html><body><script>${js}</script>${fallback}</body></html>`
+  });
+
   if (!code) {
-    return { statusCode: 400, body: 
-    `<html><body>
-      <script>
-        (function() {
-          if (window.opener) {
-            window.opener.postMessage('authorization:github:error:{"error":"missing_code"}', '*');
-            window.close();
-          }
-        })();
-      </script>
-      Missing code
-      </body></html>`
-    };
+    return html(`
+      if (window.opener) {
+        window.opener.postMessage('authorization:github:error:{"error":"missing_code"}','*');
+        window.close();
+      }
+    `, 'Missing code');
   }
 
-  const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+  const res = await fetch('https://github.com/login/oauth/access_token', {
     method: 'POST',
     headers: { Accept: 'application/json' },
     body: new URLSearchParams({
@@ -34,43 +28,24 @@ export const handler: Handler = async (event) => {
       code,
     })
   });
-  const data = await tokenRes.json() as GitHubOAuthResponse;
+  const data = await res.json();
 
   if (!data.access_token) {
-    return { statusCode: 400, body: 
-    `<html><body>
-      <script>
-        (function() {
-          if (window.opener) {
-            window.opener.postMessage('authorization:github:error:${JSON.stringify(data)}', '*');
-            window.close();
-          }
-        })();
-      </script>
-      No token
-      </body></html>`
-    };
+    const err = JSON.stringify(data);
+    return html(`
+      if (window.opener) {
+        window.opener.postMessage('authorization:github:error:${err}','*');
+        window.close();
+      }
+    `, 'No token');
   }
 
-  // IMPORTANT: send the success message with the right prefix + JSON
   const payload = JSON.stringify({ token: data.access_token, provider: 'github' });
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'text/html' },
-    body: 
-    `<html><body>
-      <script>
-        (function() {
-          if (window.opener) {
-            window.opener.postMessage('authorization:github:success:${payload}', '*');
-            window.close();
-          } else {
-            // fallback to display token if not opened as popup
-            document.body.innerText = 'Logged in. You can close this window.';
-          }
-        })();
-      </script>
-      </body></html>`
-  };
+  return html(`
+    (function(){
+      var msg='authorization:github:success:${payload}';
+      if (window.opener) { window.opener.postMessage(msg,'*'); window.close(); }
+      else { document.body.innerText='Logged in. You can close this window.'; }
+    })();
+  `);
 };

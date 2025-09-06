@@ -1,6 +1,12 @@
 // Vite will copy anything under /content into the build (since it's not under /public).
 // We'll fetch Markdown at runtime and parse it.
 import matter from "gray-matter";
+// Ensure Buffer exists in browser for gray-matter internals
+// Vite will tree-shake if unused elsewhere
+import { Buffer as BufferPolyfill } from "buffer";
+if (typeof window !== 'undefined' && typeof (window as any).Buffer === 'undefined') {
+  (window as any).Buffer = BufferPolyfill;
+}
 import { marked } from "marked";
 
 export async function fetchMarkdown(path: string) {
